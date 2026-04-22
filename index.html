@@ -192,59 +192,10 @@ button {
 </div>
 
 <script>
-function calcular() {
-  let horas = parseFloat(horasInput.value);
-  let to = parseFloat(toInput.value);
-
-  let datos = [
-    { smv: parseFloat(smv1.value) || 0, prod: parseFloat(prod1.value) || 0 },
-    { smv: parseFloat(smv2.value) || 0, prod: parseFloat(prod2.value) || 0 },
-    { smv: parseFloat(smv3.value) || 0, prod: parseFloat(prod3.value) || 0 }
-  ];
-
-  if (!horas || !to) {
-    mostrar("Faltan datos", "rojo");
-    return;
-  }
-
-  let totalAjustado = 0;
-  let totalReal = 0;
-
-  datos.forEach(d => {
-    if (d.smv > 0) {
-      let std = (horas * 60) / d.smv;
-      totalAjustado += std * to;
-      totalReal += d.prod;
-    }
-  });
-
-  if (totalAjustado === 0) {
-    mostrar("Error", "rojo");
-    return;
-  }
-
-  let eficiencia = (totalReal / totalAjustado) * 100;
-
-  let color = "rojo";
-  if (eficiencia >= 100) color = "verde";
-  else if (eficiencia >= 80) color = "amarillo";
-
-  mostrar("Eficiencia: " + eficiencia.toFixed(2) + " %", color);
-
-  meta100.innerText = totalAjustado.toFixed(0);
-  meta95.innerText = (totalAjustado * 0.95).toFixed(0);
-  meta90.innerText = (totalAjustado * 0.90).toFixed(0);
-}
-
-function mostrar(texto, color) {
-  let r = document.getElementById("resultado");
-  r.innerText = texto;
-  r.className = "resultado " + color;
-}
-
-<script>
 
 <script src="script.js"></script>
+
+<script>
 
 </body>
 </html>
