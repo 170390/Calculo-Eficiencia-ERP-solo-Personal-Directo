@@ -2,91 +2,94 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ERP Producción</title>
 
 <style>
 body {
   font-family: Arial;
   background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   margin: 0;
+  padding: 10px;
 }
 
+/* CONTENEDOR */
 .card {
   background: #f9f9f9;
-  padding: 20px;
+  padding: 15px;
   border-radius: 20px;
-  width: 420px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+  max-width: 420px;
+  margin: auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
 h2 {
   text-align: center;
-  margin-bottom: 15px;
+  font-size: 20px;
 }
 
-/* 🔥 LABELS VISIBLES */
+/* LABELS */
 label {
   font-size: 13px;
   font-weight: bold;
+  margin-top: 10px;
   display: block;
-  margin-top: 8px;
 }
 
-/* INPUTS CON RELIEVE */
+/* INPUTS */
 input {
   width: 100%;
-  padding: 10px;
-  margin-top: 3px;
+  padding: 12px;
+  margin-top: 4px;
   border-radius: 10px;
   border: none;
   background: #e0e0e0;
   box-shadow: inset 3px 3px 6px #bebebe,
               inset -3px -3px 6px #ffffff;
-  font-size: 14px;
+  font-size: 16px;
 }
 
-/* TABLA */
+/* TABLA RESPONSIVE */
+.table-container {
+  overflow-x: auto;
+  margin-top: 10px;
+}
+
 table {
   width: 100%;
-  margin-top: 12px;
   border-collapse: collapse;
+  min-width: 300px;
 }
 
 th {
   background: #007bff;
   color: white;
   padding: 8px;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 td {
-  padding: 6px;
+  padding: 5px;
 }
 
 /* BOTÓN */
 button {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   margin-top: 15px;
   background: linear-gradient(145deg, #28a745, #218838);
   color: white;
   border: none;
   border-radius: 10px;
-  font-size: 16px;
+  font-size: 18px;
   cursor: pointer;
-  box-shadow: 3px 3px 8px #1c7430,
-              -3px -3px 8px #34d058;
 }
 
 /* RESULTADO */
 .resultado {
   margin-top: 15px;
   text-align: center;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   padding: 10px;
   border-radius: 10px;
@@ -96,7 +99,7 @@ button {
 .amarillo { background: #ffc107; }
 .rojo { background: #dc3545; color: white; }
 
-/* TABLA METAS */
+/* METAS */
 .meta-table {
   margin-top: 15px;
 }
@@ -108,6 +111,14 @@ button {
 .meta-table td {
   text-align: center;
   font-weight: bold;
+  font-size: 14px;
+}
+
+/* 📱 AJUSTES EXTRA PARA CELULAR */
+@media (max-width: 480px) {
+  h2 { font-size: 18px; }
+  input { font-size: 15px; padding: 10px; }
+  button { font-size: 16px; }
 }
 </style>
 </head>
@@ -115,48 +126,51 @@ button {
 <body>
 
 <div class="card">
-<h2>Calculadora ERP (TO Directo)</h2>
+<h2>ERP Producción</h2>
 
 <label>Horas Laboradas</label>
 <input type="number" id="horas">
 
-<label>TO (Personal Directo)</label>
+<label>TO</label>
 <input type="number" id="to">
 
+<div class="table-container">
 <table>
 <tr>
 <th>Estilo</th>
 <th>SMV</th>
-<th>Producción Real Linea</th>
+<th>Producción</th>
 </tr>
 
 <tr>
-<td>Estilo 1</td>
+<td>1</td>
 <td><input type="number" id="smv1"></td>
 <td><input type="number" id="prod1"></td>
 </tr>
 
 <tr>
-<td>Estilo 2</td>
+<td>2</td>
 <td><input type="number" id="smv2"></td>
 <td><input type="number" id="prod2"></td>
 </tr>
 
 <tr>
-<td>Estilo 3</td>
+<td>3</td>
 <td><input type="number" id="smv3"></td>
 <td><input type="number" id="prod3"></td>
 </tr>
 </table>
+</div>
 
 <button onclick="calcular()">Calcular</button>
 
 <div id="resultado" class="resultado"></div>
 
+<div class="table-container">
 <table class="meta-table">
 <tr>
 <th>Meta</th>
-<th>Producción Requerida</th>
+<th>Producción requerida</th>
 </tr>
 <tr>
 <td>100%</td>
@@ -171,13 +185,14 @@ button {
 <td id="meta90">-</td>
 </tr>
 </table>
+</div>
 
 </div>
 
 <script>
 function calcular() {
-  let horas = parseFloat(document.getElementById("horas").value);
-  let to = parseFloat(document.getElementById("to").value);
+  let horas = parseFloat(horasInput.value);
+  let to = parseFloat(toInput.value);
 
   let datos = [
     { smv: parseFloat(smv1.value) || 0, prod: parseFloat(prod1.value) || 0 },
@@ -186,7 +201,7 @@ function calcular() {
   ];
 
   if (!horas || !to) {
-    mostrar("Faltan datos principales", "rojo");
+    mostrar("Faltan datos", "rojo");
     return;
   }
 
@@ -202,7 +217,7 @@ function calcular() {
   });
 
   if (totalAjustado === 0) {
-    mostrar("Error en datos", "rojo");
+    mostrar("Error", "rojo");
     return;
   }
 
@@ -214,9 +229,9 @@ function calcular() {
 
   mostrar("Eficiencia: " + eficiencia.toFixed(2) + " %", color);
 
-  document.getElementById("meta100").innerText = totalAjustado.toFixed(0);
-  document.getElementById("meta95").innerText = (totalAjustado * 0.95).toFixed(0);
-  document.getElementById("meta90").innerText = (totalAjustado * 0.90).toFixed(0);
+  meta100.innerText = totalAjustado.toFixed(0);
+  meta95.innerText = (totalAjustado * 0.95).toFixed(0);
+  meta90.innerText = (totalAjustado * 0.90).toFixed(0);
 }
 
 function mostrar(texto, color) {
