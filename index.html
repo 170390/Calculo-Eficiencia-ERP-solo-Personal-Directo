@@ -1,129 +1,166 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>ERP Multi-Estilo</title>
-  <style>
-    body {
-      font-family: Arial;
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+<meta charset="UTF-8">
+<title>ERP Producción</title>
 
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 15px;
-      width: 380px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
+<style>
+body {
+  font-family: Arial;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
 
-    h2 {
-      text-align: center;
-      margin-bottom: 15px;
-    }
+.card {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 20px;
+  width: 400px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+}
 
-    label {
-      font-weight: bold;
-      font-size: 13px;
-    }
+h2 {
+  text-align: center;
+}
 
-    input {
-      width: 100%;
-      margin: 5px 0 10px 0;
-      padding: 8px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
+/* 🔥 INPUTS CON RELIEVE */
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  border-radius: 10px;
+  border: none;
+  background: #e0e0e0;
+  box-shadow: inset 3px 3px 6px #bebebe,
+              inset -3px -3px 6px #ffffff;
+  font-size: 14px;
+}
 
-    table {
-      width: 100%;
-      margin-top: 10px;
-      border-collapse: collapse;
-    }
+/* TABLA */
+table {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+}
 
-    th {
-      background: #007bff;
-      color: white;
-      padding: 6px;
-      font-size: 12px;
-    }
+th {
+  background: #007bff;
+  color: white;
+  padding: 6px;
+  font-size: 12px;
+}
 
-    td {
-      padding: 5px;
-    }
+td {
+  padding: 5px;
+}
 
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 15px;
-      background: #28a745;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+/* BOTÓN */
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  background: linear-gradient(145deg, #28a745, #218838);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 3px 3px 8px #1c7430,
+              -3px -3px 8px #34d058;
+}
 
-    .resultado {
-      margin-top: 15px;
-      text-align: center;
-      font-size: 20px;
-      font-weight: bold;
-      padding: 10px;
-      border-radius: 8px;
-    }
+/* RESULTADO */
+.resultado {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 10px;
+}
 
-    .verde { background: #28a745; color: white; }
-    .amarillo { background: #ffc107; color: black; }
-    .rojo { background: #dc3545; color: white; }
+.verde { background: #28a745; color: white; }
+.amarillo { background: #ffc107; }
+.rojo { background: #dc3545; color: white; }
 
-  </style>
+/* TABLA METAS */
+.meta-table {
+  margin-top: 15px;
+}
+
+.meta-table th {
+  background: #343a40;
+}
+
+.meta-table td {
+  text-align: center;
+  font-weight: bold;
+}
+</style>
 </head>
+
 <body>
 
 <div class="card">
-  <h2>Calculadora ERP</h2>
+<h2>ERP Producción</h2>
 
-  <label>Horas Laboradas</label>
-  <input type="number" id="horas">
+<input type="number" id="horas" placeholder="Horas Laboradas">
+<input type="number" id="to" placeholder="TO">
 
-  <label>TO (Personal Directo)</label>
-  <input type="number" id="to">
+<table>
+<tr>
+<th>Estilo</th>
+<th>SMV</th>
+<th>Producción</th>
+</tr>
 
-  <table>
-    <tr>
-      <th>Estilo</th>
-      <th>SMV</th>
-      <th>Producción</th>
-    </tr>
+<tr>
+<td>1</td>
+<td><input type="number" id="smv1"></td>
+<td><input type="number" id="prod1"></td>
+</tr>
 
-    <tr>
-      <td>1</td>
-      <td><input type="number" id="smv1"></td>
-      <td><input type="number" id="prod1"></td>
-    </tr>
+<tr>
+<td>2</td>
+<td><input type="number" id="smv2"></td>
+<td><input type="number" id="prod2"></td>
+</tr>
 
-    <tr>
-      <td>2</td>
-      <td><input type="number" id="smv2"></td>
-      <td><input type="number" id="prod2"></td>
-    </tr>
+<tr>
+<td>3</td>
+<td><input type="number" id="smv3"></td>
+<td><input type="number" id="prod3"></td>
+</tr>
+</table>
 
-    <tr>
-      <td>3</td>
-      <td><input type="number" id="smv3"></td>
-      <td><input type="number" id="prod3"></td>
-    </tr>
-  </table>
+<button onclick="calcular()">Calcular</button>
 
-  <button onclick="calcular()">Calcular Eficiencia</button>
+<div id="resultado" class="resultado"></div>
 
-  <div id="resultado" class="resultado"></div>
+<!-- 🔥 TABLA DE METAS -->
+<table class="meta-table">
+<tr>
+<th>Meta</th>
+<th>Producción requerida</th>
+</tr>
+<tr>
+<td>100%</td>
+<td id="meta100">-</td>
+</tr>
+<tr>
+<td>95%</td>
+<td id="meta95">-</td>
+</tr>
+<tr>
+<td>90%</td>
+<td id="meta90">-</td>
+</tr>
+</table>
+
 </div>
 
 <script>
@@ -132,13 +169,13 @@ function calcular() {
   let to = parseFloat(document.getElementById("to").value);
 
   let datos = [
-    { smv: parseFloat(document.getElementById("smv1").value) || 0, prod: parseFloat(document.getElementById("prod1").value) || 0 },
-    { smv: parseFloat(document.getElementById("smv2").value) || 0, prod: parseFloat(document.getElementById("prod2").value) || 0 },
-    { smv: parseFloat(document.getElementById("smv3").value) || 0, prod: parseFloat(document.getElementById("prod3").value) || 0 }
+    { smv: parseFloat(smv1.value) || 0, prod: parseFloat(prod1.value) || 0 },
+    { smv: parseFloat(smv2.value) || 0, prod: parseFloat(prod2.value) || 0 },
+    { smv: parseFloat(smv3.value) || 0, prod: parseFloat(prod3.value) || 0 }
   ];
 
   if (!horas || !to) {
-    mostrarResultado("Faltan datos principales", "rojo");
+    mostrar("Faltan datos", "rojo");
     return;
   }
 
@@ -154,7 +191,7 @@ function calcular() {
   });
 
   if (totalAjustado === 0) {
-    mostrarResultado("Error en datos", "rojo");
+    mostrar("Error en datos", "rojo");
     return;
   }
 
@@ -164,13 +201,18 @@ function calcular() {
   if (eficiencia >= 100) color = "verde";
   else if (eficiencia >= 80) color = "amarillo";
 
-  mostrarResultado("Eficiencia: " + eficiencia.toFixed(2) + " %", color);
+  mostrar("Eficiencia: " + eficiencia.toFixed(2) + " %", color);
+
+  // 🔥 METAS
+  document.getElementById("meta100").innerText = totalAjustado.toFixed(0);
+  document.getElementById("meta95").innerText = (totalAjustado * 0.95).toFixed(0);
+  document.getElementById("meta90").innerText = (totalAjustado * 0.90).toFixed(0);
 }
 
-function mostrarResultado(texto, color) {
-  let res = document.getElementById("resultado");
-  res.innerText = texto;
-  res.className = "resultado " + color;
+function mostrar(texto, color) {
+  let r = document.getElementById("resultado");
+  r.innerText = texto;
+  r.className = "resultado " + color;
 }
 </script>
 
