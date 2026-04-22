@@ -2,68 +2,128 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Calculadora ERP Multi-Estilo</title>
+  <title>ERP Multi-Estilo</title>
   <style>
     body {
       font-family: Arial;
-      background: #f4f4f4;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      margin: 0;
     }
+
     .card {
       background: white;
       padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 320px;
+      border-radius: 15px;
+      width: 380px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      font-size: 13px;
+    }
+
     input {
       width: 100%;
-      margin-bottom: 10px;
+      margin: 5px 0 10px 0;
       padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
     }
-    button {
+
+    table {
       width: 100%;
-      padding: 10px;
+      margin-top: 10px;
+      border-collapse: collapse;
+    }
+
+    th {
       background: #007bff;
       color: white;
+      padding: 6px;
+      font-size: 12px;
+    }
+
+    td {
+      padding: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      background: #28a745;
+      color: white;
       border: none;
+      border-radius: 8px;
+      font-size: 16px;
       cursor: pointer;
     }
+
     .resultado {
       margin-top: 15px;
+      text-align: center;
+      font-size: 20px;
       font-weight: bold;
-      font-size: 18px;
+      padding: 10px;
+      border-radius: 8px;
     }
+
+    .verde { background: #28a745; color: white; }
+    .amarillo { background: #ffc107; color: black; }
+    .rojo { background: #dc3545; color: white; }
+
   </style>
 </head>
 <body>
 
 <div class="card">
-  <h2>ERP Multi-Estilo</h2>
+  <h2>Calculadora ERP</h2>
 
-  <input type="number" id="horas" placeholder="Horas laboradas">
-  <input type="number" id="to" placeholder="TO">
+  <label>Horas Laboradas</label>
+  <input type="number" id="horas">
 
-  <hr>
+  <label>TO (Tiempo Operativo)</label>
+  <input type="number" id="to">
 
-  <strong>Estilo 1</strong>
-  <input type="number" id="smv1" placeholder="SMV 1">
-  <input type="number" id="prod1" placeholder="Producción Real 1">
+  <table>
+    <tr>
+      <th>Estilo</th>
+      <th>SMV</th>
+      <th>Producción</th>
+    </tr>
 
-  <strong>Estilo 2</strong>
-  <input type="number" id="smv2" placeholder="SMV 2">
-  <input type="number" id="prod2" placeholder="Producción Real 2">
+    <tr>
+      <td>1</td>
+      <td><input type="number" id="smv1"></td>
+      <td><input type="number" id="prod1"></td>
+    </tr>
 
-  <strong>Estilo 3</strong>
-  <input type="number" id="smv3" placeholder="SMV 3">
-  <input type="number" id="prod3" placeholder="Producción Real 3">
+    <tr>
+      <td>2</td>
+      <td><input type="number" id="smv2"></td>
+      <td><input type="number" id="prod2"></td>
+    </tr>
 
-  <button onclick="calcular()">Calcular</button>
+    <tr>
+      <td>3</td>
+      <td><input type="number" id="smv3"></td>
+      <td><input type="number" id="prod3"></td>
+    </tr>
+  </table>
 
-  <div class="resultado" id="resultado"></div>
+  <button onclick="calcular()">Calcular Eficiencia</button>
+
+  <div id="resultado" class="resultado"></div>
 </div>
 
 <script>
@@ -71,43 +131,46 @@ function calcular() {
   let horas = parseFloat(document.getElementById("horas").value);
   let to = parseFloat(document.getElementById("to").value);
 
-  let smv1 = parseFloat(document.getElementById("smv1").value) || 0;
-  let prod1 = parseFloat(document.getElementById("prod1").value) || 0;
-
-  let smv2 = parseFloat(document.getElementById("smv2").value) || 0;
-  let prod2 = parseFloat(document.getElementById("prod2").value) || 0;
-
-  let smv3 = parseFloat(document.getElementById("smv3").value) || 0;
-  let prod3 = parseFloat(document.getElementById("prod3").value) || 0;
+  let datos = [
+    { smv: parseFloat(document.getElementById("smv1").value) || 0, prod: parseFloat(document.getElementById("prod1").value) || 0 },
+    { smv: parseFloat(document.getElementById("smv2").value) || 0, prod: parseFloat(document.getElementById("prod2").value) || 0 },
+    { smv: parseFloat(document.getElementById("smv3").value) || 0, prod: parseFloat(document.getElementById("prod3").value) || 0 }
+  ];
 
   if (!horas || !to) {
-    document.getElementById("resultado").innerText = "Faltan datos principales";
+    mostrarResultado("Faltan datos principales", "rojo");
     return;
   }
 
-  function calcEstilo(smv, prod) {
-    if (smv === 0) return { ajustada: 0, real: 0 };
-    let std = (horas * 60) / smv;
-    let ajustada = std * to;
-    return { ajustada: ajustada, real: prod };
-  }
+  let totalAjustado = 0;
+  let totalReal = 0;
 
-  let e1 = calcEstilo(smv1, prod1);
-  let e2 = calcEstilo(smv2, prod2);
-  let e3 = calcEstilo(smv3, prod3);
-
-  let totalAjustado = e1.ajustada + e2.ajustada + e3.ajustada;
-  let totalReal = e1.real + e2.real + e3.real;
+  datos.forEach(d => {
+    if (d.smv > 0) {
+      let std = (horas * 60) / d.smv;
+      totalAjustado += std * to;
+      totalReal += d.prod;
+    }
+  });
 
   if (totalAjustado === 0) {
-    document.getElementById("resultado").innerText = "Error en datos";
+    mostrarResultado("Error en datos", "rojo");
     return;
   }
 
   let eficiencia = (totalReal / totalAjustado) * 100;
 
-  document.getElementById("resultado").innerText =
-    "Eficiencia ERP Total: " + eficiencia.toFixed(2) + " %";
+  let color = "rojo";
+  if (eficiencia >= 100) color = "verde";
+  else if (eficiencia >= 80) color = "amarillo";
+
+  mostrarResultado("Eficiencia: " + eficiencia.toFixed(2) + " %", color);
+}
+
+function mostrarResultado(texto, color) {
+  let res = document.getElementById("resultado");
+  res.innerText = texto;
+  res.className = "resultado " + color;
 }
 </script>
 
