@@ -1,0 +1,42 @@
+/* 🔥 CORRECCIÓN GLOBAL */
+* {
+  box-sizing: border-box;
+}
+
+/* CONTENEDOR DE TABLA */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* TABLA */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* 🔥 clave */
+}
+
+/* CELDAS */
+th, td {
+  padding: 5px;
+  text-align: center;
+}
+
+/* INPUTS DENTRO DE TABLA */
+td input {
+  width: 100%;
+  max-width: 100%;
+  padding: 8px;
+  font-size: 14px;
+
+  @media (max-width: 480px) {
+  th {
+    font-size: 11px;
+  }
+
+  td input {
+    font-size: 13px;
+    padding: 6px;
+  }
+}
+}
