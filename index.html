@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Calculadora ERP</title>
+  <title>Calculadora ERP Multi-Estilo</title>
   <style>
     body {
       font-family: Arial;
@@ -17,7 +17,7 @@
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 300px;
+      width: 320px;
     }
     input {
       width: 100%;
@@ -42,12 +42,24 @@
 <body>
 
 <div class="card">
-  <h2>Calculadora ERP</h2>
+  <h2>ERP Multi-Estilo</h2>
 
   <input type="number" id="horas" placeholder="Horas laboradas">
-  <input type="number" id="smv" placeholder="SMV">
   <input type="number" id="to" placeholder="TO">
-  <input type="number" id="produccion" placeholder="Producción Real">
+
+  <hr>
+
+  <strong>Estilo 1</strong>
+  <input type="number" id="smv1" placeholder="SMV 1">
+  <input type="number" id="prod1" placeholder="Producción Real 1">
+
+  <strong>Estilo 2</strong>
+  <input type="number" id="smv2" placeholder="SMV 2">
+  <input type="number" id="prod2" placeholder="Producción Real 2">
+
+  <strong>Estilo 3</strong>
+  <input type="number" id="smv3" placeholder="SMV 3">
+  <input type="number" id="prod3" placeholder="Producción Real 3">
 
   <button onclick="calcular()">Calcular</button>
 
@@ -57,21 +69,45 @@
 <script>
 function calcular() {
   let horas = parseFloat(document.getElementById("horas").value);
-  let smv = parseFloat(document.getElementById("smv").value);
   let to = parseFloat(document.getElementById("to").value);
-  let produccion = parseFloat(document.getElementById("produccion").value);
 
-  if (!horas || !smv || !to || !produccion) {
-    document.getElementById("resultado").innerText = "Completa todos los campos";
+  let smv1 = parseFloat(document.getElementById("smv1").value) || 0;
+  let prod1 = parseFloat(document.getElementById("prod1").value) || 0;
+
+  let smv2 = parseFloat(document.getElementById("smv2").value) || 0;
+  let prod2 = parseFloat(document.getElementById("prod2").value) || 0;
+
+  let smv3 = parseFloat(document.getElementById("smv3").value) || 0;
+  let prod3 = parseFloat(document.getElementById("prod3").value) || 0;
+
+  if (!horas || !to) {
+    document.getElementById("resultado").innerText = "Faltan datos principales";
     return;
   }
 
-  let produccionStd = (horas * 60) / smv;
-  let produccionAjustada = produccionStd * to;
-  let eficiencia = (produccion / produccionAjustada) * 100;
+  function calcEstilo(smv, prod) {
+    if (smv === 0) return { ajustada: 0, real: 0 };
+    let std = (horas * 60) / smv;
+    let ajustada = std * to;
+    return { ajustada: ajustada, real: prod };
+  }
+
+  let e1 = calcEstilo(smv1, prod1);
+  let e2 = calcEstilo(smv2, prod2);
+  let e3 = calcEstilo(smv3, prod3);
+
+  let totalAjustado = e1.ajustada + e2.ajustada + e3.ajustada;
+  let totalReal = e1.real + e2.real + e3.real;
+
+  if (totalAjustado === 0) {
+    document.getElementById("resultado").innerText = "Error en datos";
+    return;
+  }
+
+  let eficiencia = (totalReal / totalAjustado) * 100;
 
   document.getElementById("resultado").innerText =
-    "Eficiencia ERP: " + eficiencia.toFixed(2) + " %";
+    "Eficiencia ERP Total: " + eficiencia.toFixed(2) + " %";
 }
 </script>
 
