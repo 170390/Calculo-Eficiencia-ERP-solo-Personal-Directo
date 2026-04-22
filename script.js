@@ -26,44 +26,50 @@ function calcular() {
   }
 
   let totalHoras = 0;
-  let totalAjustado = 0;
+  let totalMeta = 0;
   let totalReal = 0;
 
   datos.forEach(d => {
+
     totalHoras += d.horas;
 
     if (d.horas > 0 && d.smv > 0) {
-      let std = (d.horas * 60) / d.smv;
-      let ajustado = std * to;
 
-      totalAjustado += ajustado;
+      // 🔥 FORMULA CORRECTA
+      let metaEstilo = (d.horas * 60 / d.smv) * to;
+
+      totalMeta += metaEstilo;
       totalReal += d.prod;
     }
   });
 
-  // 🔥 Validación importante
-  if (totalHoras === 0) {
-    mostrar("Ingrese horas por estilo", "rojo");
+  if (totalMeta === 0) {
+    mostrar("Error en datos", "rojo");
     return;
   }
 
-  let eficiencia = (totalReal / totalAjustado) * 100;
+  let eficiencia = (totalReal / totalMeta) * 100;
 
   let color = "rojo";
   if (eficiencia >= 100) color = "verde";
   else if (eficiencia >= 80) color = "amarillo";
 
-  mostrar("Eficiencia: " + eficiencia.toFixed(2) + " % - " + horasTexto, color);
+  // 🔥 Mostrar resultado correcto
+  mostrar(
+    "Eficiencia: " + eficiencia.toFixed(2) + "% | Horas: " + totalHoras.toFixed(2),
+    color
+  );
 
-  document.getElementById("meta100").innerText = totalAjustado.toFixed(0);
-  document.getElementById("meta95").innerText = (totalAjustado * 0.95).toFixed(0);
-  document.getElementById("meta90").innerText = (totalAjustado * 0.90).toFixed(0);
+  // 🔥 METAS
+  document.getElementById("meta100").innerText = totalMeta.toFixed(0);
+  document.getElementById("meta95").innerText = (totalMeta * 0.95).toFixed(0);
+  document.getElementById("meta90").innerText = (totalMeta * 0.90).toFixed(0);
 }
 
-let horasTexto = "Horas totales: " + totalHoras.toFixed(2);
 
+// 🔹 Mostrar resultado
 function mostrar(texto, color) {
   let r = document.getElementById("resultado");
-  r.innerText = texto + " | Horas totales: " + totalHoras;
+  r.innerText = texto;
   r.className = "resultado " + color;
 }
