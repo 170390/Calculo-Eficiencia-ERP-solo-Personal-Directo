@@ -19,19 +19,28 @@ body {
   background: #f9f9f9;
   padding: 20px;
   border-radius: 20px;
-  width: 400px;
+  width: 420px;
   box-shadow: 0 15px 40px rgba(0,0,0,0.4);
 }
 
 h2 {
   text-align: center;
+  margin-bottom: 15px;
 }
 
-/* 🔥 INPUTS CON RELIEVE */
+/* 🔥 LABELS VISIBLES */
+label {
+  font-size: 13px;
+  font-weight: bold;
+  display: block;
+  margin-top: 8px;
+}
+
+/* INPUTS CON RELIEVE */
 input {
   width: 100%;
   padding: 10px;
-  margin: 6px 0;
+  margin-top: 3px;
   border-radius: 10px;
   border: none;
   background: #e0e0e0;
@@ -43,19 +52,19 @@ input {
 /* TABLA */
 table {
   width: 100%;
-  margin-top: 10px;
+  margin-top: 12px;
   border-collapse: collapse;
 }
 
 th {
   background: #007bff;
   color: white;
-  padding: 6px;
-  font-size: 12px;
+  padding: 8px;
+  font-size: 13px;
 }
 
 td {
-  padding: 5px;
+  padding: 6px;
 }
 
 /* BOTÓN */
@@ -106,32 +115,35 @@ button {
 <body>
 
 <div class="card">
-<h2>ERP Producción</h2>
+<h2>Calculadora ERP</h2>
 
-<input type="number" id="horas" placeholder="Horas Laboradas">
-<input type="number" id="to" placeholder="TO">
+<label>Horas Laboradas</label>
+<input type="number" id="horas">
+
+<label>TO (Tiempo Operativo)</label>
+<input type="number" id="to">
 
 <table>
 <tr>
 <th>Estilo</th>
 <th>SMV</th>
-<th>Producción</th>
+<th>Producción Real</th>
 </tr>
 
 <tr>
-<td>1</td>
+<td>Estilo 1</td>
 <td><input type="number" id="smv1"></td>
 <td><input type="number" id="prod1"></td>
 </tr>
 
 <tr>
-<td>2</td>
+<td>Estilo 2</td>
 <td><input type="number" id="smv2"></td>
 <td><input type="number" id="prod2"></td>
 </tr>
 
 <tr>
-<td>3</td>
+<td>Estilo 3</td>
 <td><input type="number" id="smv3"></td>
 <td><input type="number" id="prod3"></td>
 </tr>
@@ -141,7 +153,6 @@ button {
 
 <div id="resultado" class="resultado"></div>
 
-<!-- 🔥 TABLA DE METAS -->
 <table class="meta-table">
 <tr>
 <th>Meta</th>
@@ -175,7 +186,7 @@ function calcular() {
   ];
 
   if (!horas || !to) {
-    mostrar("Faltan datos", "rojo");
+    mostrar("Faltan datos principales", "rojo");
     return;
   }
 
@@ -203,7 +214,6 @@ function calcular() {
 
   mostrar("Eficiencia: " + eficiencia.toFixed(2) + " %", color);
 
-  // 🔥 METAS
   document.getElementById("meta100").innerText = totalAjustado.toFixed(0);
   document.getElementById("meta95").innerText = (totalAjustado * 0.95).toFixed(0);
   document.getElementById("meta90").innerText = (totalAjustado * 0.90).toFixed(0);
